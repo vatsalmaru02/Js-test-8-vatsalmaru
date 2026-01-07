@@ -1,0 +1,149 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+  background-color: #f4f4f4;
+  color: #333;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+.container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 2rem;
+}
+
+.profile-header {
+  background: #ffffff;
+  border-radius: 1.4rem;
+  padding: 20px;
+  background: #fcd3d3;
+  color: #333;
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+.profile-header .avatar {
+  width: 9rem;
+  height: 9rem;
+  border-radius: 50%;
+  border: 0.2rem solid #fff;
+}
+.profile-header h1 {
+  font-size: 2.4rem;
+  margin: 0 0 0.8rem;
+}
+.profile-header p {
+  margin: 0.4rem 0;
+  font-size: 1.4rem;
+}
+
+.pagination {
+  margin-top: 3.2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.pagination .page-btn {
+  min-width: 4rem;
+  height: 4rem;
+  padding: 0 1.4rem;
+  border-radius: 0.8rem;
+  border: 0.1rem solid #d1d5db;
+  background-color: #ffffff;
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: #374151;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.pagination .page-btn:hover {
+  background-color: #f3f4f6;
+}
+.pagination .page-btn.active {
+  background-color: #d1d5db;
+  border-color: #d1d5db;
+  color: #ffffff;
+  cursor: default;
+}
+
+@media (max-width: 480px) {
+  .pagination {
+    gap: 6px;
+  }
+  .pagination .page-btn {
+    min-width: 3.4rem;
+    height: 3.4rem;
+    font-size: 1.3rem;
+    padding: 0 1rem;
+  }
+}
+.tabs {
+  display: flex;
+  margin-top: 2rem;
+}
+.tabs .tab {
+  flex: 1;
+  padding: 1.4rem;
+  border: none;
+  background: #f3f4f6;
+  cursor: pointer;
+  font-weight: 600;
+}
+.tabs .tab.active {
+  background: #fff;
+  border-bottom: 0.3rem solid #333;
+  color: #333;
+}
+
+.tab-content {
+  display: none;
+  margin-top: 2rem;
+}
+.tab-content.active {
+  display: block;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(28rem, 1fr));
+  gap: 2rem;
+}
+
+.info-card {
+  background: #ffffff;
+  border-radius: 1.4rem;
+  padding: 20px;
+  border-left: 0.4rem solid #dadada;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+.info-card h3 {
+  color: #333;
+  font-size: 1.8rem;
+  margin-bottom: 1.6rem;
+}
+.info-card p {
+  display: flex;
+  justify-content: space-between;
+  margin: 0.8rem 0;
+  font-size: 1.6rem;
+}
+.info-card p span {
+  color: #6b7280;
+}
+
+/*# sourceMappingURL=main.css.map */

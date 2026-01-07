@@ -1,0 +1,30 @@
+@use "variables" as *;
+
+.tabs {
+  display: flex;
+  margin-top: 2rem;
+
+  .tab {
+    flex: 1;
+    padding: 1.4rem;
+    border: none;
+    background: #f3f4f6;
+    cursor: pointer;
+    font-weight: 600;
+
+    &.active {
+      background: #fff;
+      border-bottom: 0.3rem solid #333;
+      color: #333;
+    }
+  }
+}
+
+.tab-content {
+  display: none;
+  margin-top: 2rem;
+
+  &.active {
+    display: block;
+  }
+}

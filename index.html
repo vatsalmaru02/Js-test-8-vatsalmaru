@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>User Profile</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/main.css" />
+  </head>
+  <body>
+    <div class="container">
+      <!-- Header -->
+      <header class="profile-header">
+        <img class="avatar" id="avatar" />
+        <div class="header-info">
+          <h1 id="name"></h1>
+          <p>Email: <span id="email"></span></p>
+          <p>Phone: <span id="phone"></span></p>
+          <p>Username: <span id="username"></span></p>
+        </div>
+      </header>
+
+      <!-- Tabs -->
+      <div class="tabs">
+        <button class="tab active" data-tab="profile">Profile</button>
+        <button class="tab" data-tab="university">University</button>
+      </div>
+
+      <!-- Profile Tab -->
+      <section class="tab-content active" id="profile">
+        <div class="card-grid">
+          <div class="info-card">
+            <h3>Personal Information</h3>
+            <p><span>Full Name:</span><b id="fullName"></b></p>
+            <p><span>Gender:</span><b id="gender"></b></p>
+            <p><span>DOB:</span><b id="dob"></b></p>
+            <p><span>Age:</span><b id="age"></b></p>
+            <p><span>Nationality:</span><b id="nationality"></b></p>
+          </div>
+
+          <div class="info-card">
+            <h3>Contact Information</h3>
+            <p><span>Email:</span><b id="contactEmail"></b></p>
+            <p><span>Phone:</span><b id="contactPhone"></b></p>
+            <p><span>Cell:</span><b id="cell"></b></p>
+          </div>
+
+          <div class="info-card">
+            <h3>Address</h3>
+            <p><span>Street:</span><b id="street"></b></p>
+            <p><span>City:</span><b id="city"></b></p>
+            <p><span>State:</span><b id="state"></b></p>
+            <p><span>Country:</span><b id="country"></b></p>
+            <p><span>Postcode:</span><b id="postcode"></b></p>
+          </div>
+
+          <div class="info-card">
+            <h3>Account Information</h3>
+            <p><span>Username:</span><b id="accUsername"></b></p>
+            <p><span>UUID:</span><b id="uuid"></b></p>
+          </div>
+        </div>
+      </section>
+
+      <!-- University Tab -->
+      <section class="tab-content" id="university">
+        <div class="controls">
+          <input type="text" id="search" placeholder="Search university" />
+          <select id="sort">
+            <option value="asc">Sort A–Z</option>
+            <option value="desc">Sort Z–A</option>
+          </select>
+        </div>
+
+        <div class="card-grid" id="universityList"></div>
+        <div class="pagination" id="pagination"></div>
+      </section>
+    </div>
+
+    <script src="js/app.js"></script>
+  </body>
+</html>

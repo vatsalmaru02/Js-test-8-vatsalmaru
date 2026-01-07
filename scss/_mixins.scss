@@ -1,0 +1,8 @@
+
+@use "variables" as *;
+
+@mixin card {
+  background: $card;
+  border-radius: $radius;
+  padding: 20px;
+}

@@ -1,0 +1,15 @@
+{
+  "name": "js-8-vatsalmaru02",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "compile:sass": "sass scss/main.scss css/main.css -w"
+  },
+  "devDependencies": {
+    "sass": "^1.97.2"
+  }
+}
