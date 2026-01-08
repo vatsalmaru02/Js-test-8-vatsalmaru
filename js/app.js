@@ -1,107 +1,361 @@
-const USER_API = "https://randomuser.me/api/";
-const UNIVERSITY_API = "http://universities.hipolabs.com/search?country=";
+const APP_CONFIG = {
+  api: "https://randomuser.me/api/",
+  tabs: [
+    { name: "Profile" },
+    {
+      name: "University",
+      api: "http://universities.hipolabs.com/search?country=SELECTED_USER_COUNTRY",
+    },
+  ],
+};
 
-const avatar = document.querySelector("#avatar");
-const nameEl = document.querySelector("#name");
-const emailEl = document.querySelector("#email");
-const phoneEl = document.querySelector("#phone");
-const usernameEl = document.querySelector("#username");
-
+let currentUser = null;
 let universities = [];
 let filtered = [];
 let currentPage = 1;
 const perPage = 6;
 
-fetch(USER_API)
-  .then((res) => res.json())
-  .then((data) => {
-    const user = data.results[0];
+document.addEventListener("DOMContentLoaded", init);
 
-    avatar.src = user.picture.large;
-    nameEl.textContent = `${user.name.title} ${user.name.first} ${user.name.last}`;
-    emailEl.textContent = user.email;
-    phoneEl.textContent = user.phone;
-    usernameEl.textContent = user.login.username;
+function init() {
+  injectLoaderStyles();
+  showGlobalLoader();
 
-    fullName.textContent = `${user.name.first} ${user.name.last}`;
-    gender.textContent = user.gender;
-    dob.textContent = user.dob.date.split("T")[0];
-    age.textContent = user.dob.age;
-    nationality.textContent = user.nat;
-
-    contactEmail.textContent = user.email;
-    contactPhone.textContent = user.phone;
-    cell.textContent = user.cell;
-
-    street.textContent = `${user.location.street.number} ${user.location.street.name}`;
-    city.textContent = user.location.city;
-    state.textContent = user.location.state;
-    country.textContent = user.location.country;
-    postcode.textContent = user.location.postcode;
-
-    accUsername.textContent = user.login.username;
-    uuid.textContent = user.login.uuid;
-
-    fetchUniversities(user.location.country);
-  });
-
-function fetchUniversities(country) {
-  fetch(UNIVERSITY_API + country)
+  fetch(APP_CONFIG.api)
     .then((res) => res.json())
     .then((data) => {
-      universities = data;
-      filtered = data;
-      renderUniversities();
+      setTimeout(() => {
+        currentUser = data.results[0];
+        renderHeader();
+        buildTabs();
+        activateTab(APP_CONFIG.tabs[0].name);
+        hideGlobalLoader();
+      }, 3000);
     });
 }
 
-function renderUniversities() {
-  universities.innerHTML = "";
+function renderHeader() {
+  document.getElementById("avatar").src = currentUser.picture.large;
 
-  const start = (currentPage - 1) * perPage;
-  const pageData = filtered.slice(start, start + perPage);
+  document.getElementById(
+    "name"
+  ).textContent = `${currentUser.name.title} ${currentUser.name.first} ${currentUser.name.last}`;
 
-  pageData.forEach((u) => {
-    universityList.innerHTML += `
-      <div class="info-card">
-        <h3>${u.name}</h3>
-        <p>${u.country}</p>
-        <a href="${u.web_pages[0]}" target="_blank">Visit Website</a>
-      </div>
-    `;
+  document.getElementById("email").textContent = currentUser.email;
+  document.getElementById("phone").textContent = currentUser.phone;
+  document.getElementById("username").textContent = currentUser.login.username;
+}
+
+function buildTabs() {
+  const tabsEl = document.querySelector(".tabs");
+  tabsEl.innerHTML = "";
+
+  APP_CONFIG.tabs.forEach((tab, index) => {
+    const btn = document.createElement("button");
+    btn.className = `tab ${index === 0 ? "active" : ""}`;
+    btn.textContent = tab.name;
+    btn.onclick = () => activateTab(tab.name);
+    tabsEl.appendChild(btn);
+
+    const section = document.createElement("section");
+    section.id = tab.name;
+    section.className = `tab-content ${index === 0 ? "active" : ""}`;
+    document.querySelector(".container").appendChild(section);
   });
+}
+
+function activateTab(tabName) {
+  document
+    .querySelectorAll(".tab")
+    .forEach((t) => t.classList.remove("active"));
+  document
+    .querySelectorAll(".tab-content")
+    .forEach((c) => c.classList.remove("active"));
+
+  document
+    .querySelectorAll(".tab")
+    .forEach((t) => t.textContent === tabName && t.classList.add("active"));
+
+  const section = document.getElementById(tabName);
+  section.classList.add("active");
+
+  const tabConfig = APP_CONFIG.tabs.find((t) => t.name === tabName);
+
+  if (tabName === "Profile") renderProfile(section);
+  else if (tabName === "University") renderUniversity(section);
+  else if (tabConfig.api) renderGenericApi(section, tabConfig.api);
+}
+
+function renderProfile(el) {
+  const user = currentUser;
+
+  el.innerHTML = `
+    <div class="card-grid">
+      <div class="info-card">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <div class="icon-container">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="icon">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+            </svg>
+          </div>
+          <h3>Personal Information</h3>
+        </div>
+        <p><span>Full Name:</span><b>${user.name.first} ${
+    user.name.last
+  }</b></p>
+        <p><span>Gender:</span><b>${user.gender}</b></p>
+        <p><span>DOB:</span><b>${user.dob.date.split("T")[0]}</b></p>
+        <p><span>Age:</span><b>${user.dob.age}</b></p>
+        <p><span>Nationality:</span><b>${user.nat}</b></p>
+      </div>
+
+      <div class="info-card">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <div class="icon-container">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="icon">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z" />
+          </svg>
+
+          </div>
+          <h3>Contact Information</h3>
+        </div>
+        <p><span>Email:</span><b>${user.email}</b></p>
+        <p><span>Phone:</span><b>${user.phone}</b></p>
+        <p><span>Cell:</span><b>${user.cell}</b></p>
+      </div>
+
+      <div class="info-card">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <div class="icon-container">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="icon">
+          <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+          </svg>
+
+          </div>
+          <h3>Address</h3>
+        </div>
+        <p><span>Street:</span><b>${user.location.street.number} ${
+    user.location.street.name
+  }</b></p>
+        <p><span>City:</span><b>${user.location.city}</b></p>
+        <p><span>State:</span><b>${user.location.state}</b></p>
+        <p><span>Country:</span><b>${user.location.country}</b></p>
+        <p><span>Postcode:</span><b>${user.location.postcode}</b></p>
+      </div>
+
+      <div class="info-card">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <div class="icon-container">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="icon">
+        <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
+      </svg>
+
+
+
+          </div>
+          <h3>Account Information</h3>
+        </div>
+        <p><span>Username:</span><b>${user.login.username}</b></p>
+        <p class = "uuid"><span>UUID:</span><b>${user.login.uuid}</b></p>
+      </div>
+    </div>
+  `;
+}
+
+function renderUniversity(el) {
+  el.innerHTML = `
+    <div class="controls">
+      <input id="search" placeholder="Search university" />
+      <select id="sort">
+        <option value="asc">Sort A–Z</option>
+        <option value="desc">Sort Z–A</option>
+      </select>
+    </div>
+
+    <div class="card-grid" id="universityList">
+      <div class="loader-container"><span class="loader"></span></div>
+    </div>
+    <div class="pagination" id="pagination"></div>
+  `;
+
+  const url = APP_CONFIG.tabs
+    .find((t) => t.name === "University")
+    .api.replace("SELECTED_USER_COUNTRY", currentUser.location.country);
+
+  fetch(url)
+    .then((res) => res.json())
+    .then((data) => {
+      setTimeout(() => {
+        universities = filtered = data;
+        currentPage = 1;
+        renderUniversities();
+      }, 3000);
+    });
+
+  const search = document.getElementById("search");
+  search.oninput = onSearch;
+
+  const sort = document.getElementById("sort");
+  sort.onchange = onSort;
+}
+
+function renderUniversities() {
+  const list = document.getElementById("universityList");
+  list.innerHTML = "";
+
+  filtered
+    .slice((currentPage - 1) * perPage, currentPage * perPage)
+    .forEach((u) => {
+      list.innerHTML += `
+        <div class="info-card">
+          <h3>${u.name}</h3>
+          <p>${u.country}</p>
+          <a href="${u.web_pages[0]}" target="_blank">Visit Website</a>
+        </div>
+      `;
+    });
 
   renderPagination();
 }
 
 function renderPagination() {
-  pagination.innerHTML = "";
-  const pages = Math.ceil(filtered.length / perPage);
+  const p = document.getElementById("pagination");
+  p.innerHTML = "";
 
-  for (let i = 1; i <= pages; i++) {
-    pagination.innerHTML += `
-      <button class="page-btn ${i === currentPage ? "active" : ""}"
-        onclick="changePage(${i})">${i}</button>
-    `;
+  const totalPages = Math.ceil(filtered.length / perPage);
+  if (totalPages <= 1) return;
+
+  const maxVisible = 3;
+
+  if (currentPage > 1) {
+    p.appendChild(createPageBtn("<", currentPage - 1));
+  }
+
+  let start = Math.max(1, currentPage);
+  let end = Math.min(start + maxVisible - 1, totalPages);
+
+  if (end === totalPages) {
+    start = Math.max(1, end - maxVisible + 1);
+  }
+
+  for (let i = start; i <= end; i++) {
+    p.appendChild(createPageBtn(i, i));
+  }
+
+  if (end < totalPages - 1) {
+    const dots = document.createElement("span");
+    dots.textContent = "...";
+    dots.style.padding = "0 6px";
+    p.appendChild(dots);
+  }
+
+  if (end < totalPages) {
+    p.appendChild(createPageBtn(totalPages, totalPages));
+  }
+
+  if (currentPage < totalPages) {
+    p.appendChild(createPageBtn(">", currentPage + 1));
   }
 }
 
-sort.addEventListener("change", (e) => {
+function createPageBtn(label, page) {
+  const btn = document.createElement("button");
+  btn.className = `page-btn ${page === currentPage ? "active" : ""}`;
+  btn.textContent = label;
+  btn.onclick = () => {
+    currentPage = page;
+    renderUniversities();
+  };
+  return btn;
+}
+
+function onSearch(e) {
+  filtered = universities.filter((u) =>
+    u.name.toLowerCase().includes(e.target.value.toLowerCase())
+  );
+  currentPage = 1;
+  renderUniversities();
+}
+
+function onSort(e) {
   filtered.sort((a, b) =>
     e.target.value === "asc"
       ? a.name.localeCompare(b.name)
       : b.name.localeCompare(a.name)
   );
   renderUniversities();
-});
+}
 
-document.querySelectorAll(".tab").forEach((tab) => {
-  tab.addEventListener("click", () => {
-    document
-      .querySelectorAll(".tab, .tab-content")
-      .forEach((el) => el.classList.remove("active"));
+function renderGenericApi(el, api) {
+  el.innerHTML = `<div class="loader-container"><span class="loader"></span></div>`;
 
-    tab.classList.add("active");
-    document.getElementById(tab.dataset.tab).classList.add("active");
+  fetch(api)
+    .then((res) => res.json())
+    .then((data) => {
+      setTimeout(() => {
+        el.innerHTML = `
+          <div class="info-card">
+            <h3>API Response</h3>
+            <pre>${JSON.stringify(data, null, 2)}</pre>
+          </div>
+        `;
+      }, 3000);
+    });
+}
+
+function injectLoaderStyles() {
+  const style = document.createElement("style");
+  style.textContent = `
+    .loader {
+      width: 48px;
+      height: 48px;
+      border: 5px solid #FFF;
+      border-bottom-color: transparent;
+      border-radius: 50%;
+      display: inline-block;
+      box-sizing: border-box;
+      animation: rotation 1s linear infinite;
+    }
+
+    @keyframes rotation {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .loader-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      background: rgba(0, 0, 0, 0.7);
+      border-radius: 8px;
+      margin: 20px auto;
+      width: fit-content;
+    }
+  `;
+  document.head.appendChild(style);
+}
+
+function showGlobalLoader() {
+  const loader = document.createElement("div");
+  loader.id = "global-loader";
+  Object.assign(loader.style, {
+    position: "fixed",
+    top: "0",
+    left: "0",
+    width: "100%",
+    height: "100%",
+    backgroundColor: "rgba(0,0,0,0.8)",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    zIndex: "9999",
   });
-});
+  loader.innerHTML = '<span class="loader"></span>';
+  document.body.appendChild(loader);
+}
+
+function hideGlobalLoader() {
+  const loader = document.getElementById("global-loader");
+  if (loader) loader.remove();
+}

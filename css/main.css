@@ -7,7 +7,6 @@
 body {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   line-height: 1.6;
-  background-color: #f4f4f4;
   color: #333;
 }
 
@@ -24,27 +23,52 @@ html {
 .profile-header {
   background: #ffffff;
   border-radius: 1.4rem;
-  padding: 20px;
-  background: #fcd3d3;
-  color: #333;
+  padding: 2rem;
+  background-image: url(../imgs/background.jpg);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: #fff;
   display: flex;
-  gap: 2rem;
+  gap: 8rem;
   align-items: center;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 .profile-header .avatar {
-  width: 9rem;
-  height: 9rem;
+  width: 13rem;
+  height: 13rem;
   border-radius: 50%;
   border: 0.2rem solid #fff;
 }
 .profile-header h1 {
+  color: #fff;
   font-size: 2.4rem;
   margin: 0 0 0.8rem;
 }
 .profile-header p {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
   margin: 0.4rem 0;
   font-size: 1.4rem;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 3rem;
+}
+
+.info-header {
+  display: flex;
+  gap: 8rem;
+  align-items: center;
+}
+
+.info-user {
+  font-weight: 600;
+}
+
+.icon {
+  height: 2rem;
+  width: 2rem;
 }
 
 .pagination {
@@ -82,6 +106,9 @@ html {
 }
 
 @media (max-width: 480px) {
+  html {
+    font-size: 53%;
+  }
   .pagination {
     gap: 6px;
   }
@@ -91,10 +118,45 @@ html {
     font-size: 1.3rem;
     padding: 0 1rem;
   }
+  .profile-header {
+    flex-direction: column;
+    text-align: center;
+    gap: 1.5rem;
+  }
+}
+@media (max-width: 1159px) {
+  .info-header {
+    display: flex;
+    gap: 7rem;
+    align-items: center;
+  }
+}
+@media (max-width: 1102px) {
+  .info-header {
+    display: flex;
+    gap: 5rem;
+    align-items: center;
+  }
+}
+@media (max-width: 1055px) {
+  .info-header {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+}
+@media (max-width: 573px) {
+  .profile-header {
+    flex-direction: column;
+    text-align: center;
+    gap: 1.5rem;
+  }
 }
 .tabs {
   display: flex;
   margin-top: 2rem;
+  overflow-x: auto;
 }
 .tabs .tab {
   flex: 1;
@@ -103,6 +165,8 @@ html {
   background: #f3f4f6;
   cursor: pointer;
   font-weight: 600;
+  white-space: nowrap;
+  transition: 0.3s;
 }
 .tabs .tab.active {
   background: #fff;
@@ -116,6 +180,56 @@ html {
 }
 .tab-content.active {
   display: block;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+::-webkit-scrollbar {
+  width: 0.5rem;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cfcccc;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #b3b3b3;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+}
+.controls input {
+  padding: 1.3rem;
+  border: 1px solid #ccc;
+  border-radius: 1rem;
+  font-size: 1.2rem;
+  width: 90%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.controls select {
+  padding: 1.3rem;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 1rem;
+  font-size: 1.2rem;
+  font-weight: 500;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
 }
 
 .card-grid {
@@ -127,23 +241,54 @@ html {
 .info-card {
   background: #ffffff;
   border-radius: 1.4rem;
-  padding: 20px;
+  padding: 2rem;
   border-left: 0.4rem solid #dadada;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background-color: #2b3377;
 }
 .info-card h3 {
-  color: #333;
+  color: #fff;
   font-size: 1.8rem;
   margin-bottom: 1.6rem;
 }
 .info-card p {
+  color: #fff;
   display: flex;
   justify-content: space-between;
   margin: 0.8rem 0;
   font-size: 1.6rem;
 }
 .info-card p span {
-  color: #6b7280;
+  color: #fff;
+}
+.info-card .uuid {
+  gap: 8rem;
+}
+.info-card a {
+  display: inline-block;
+  color: #fff;
+  font-weight: 600;
+  text-decoration: none;
+}
+.info-card a:hover {
+  text-decoration: underline;
+}
+
+.info-card:hover {
+  scale: 1.02;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+}
+
+.icon-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 4rem;
+  height: 4rem;
+  background-color: #f0f0f0;
+  border-radius: 50%;
+  margin-bottom: 1.6rem;
 }
 
 /*# sourceMappingURL=main.css.map */

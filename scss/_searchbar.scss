@@ -1,0 +1,26 @@
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+
+  input {
+    padding: 1.3rem;
+    border: 1px solid #ccc;
+    border-radius: 1rem;
+    font-size: 1.2rem;
+    width: 90%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  select {
+    padding: 1.3rem;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 1rem;
+    font-size: 1.2rem;
+    font-weight: 500;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+  }
+}

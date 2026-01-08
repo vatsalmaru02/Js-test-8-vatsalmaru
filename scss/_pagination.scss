@@ -39,15 +39,3 @@
   }
 }
 
-@media (max-width: 480px) {
-  .pagination {
-    gap: 6px;
-
-    .page-btn {
-      min-width: 3.4rem;
-      height: 3.4rem;
-      font-size: 1.3rem;
-      padding: 0 1rem;
-    }
-  }
-}

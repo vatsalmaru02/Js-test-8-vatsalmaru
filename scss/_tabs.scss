@@ -3,6 +3,7 @@
 .tabs {
   display: flex;
   margin-top: 2rem;
+  overflow-x: auto;
 
   .tab {
     flex: 1;
@@ -11,6 +12,8 @@
     background: #f3f4f6;
     cursor: pointer;
     font-weight: 600;
+    white-space: nowrap;
+    transition: 0.3s;
 
     &.active {
       background: #fff;
@@ -26,5 +29,27 @@
 
   &.active {
     display: block;
+    animation: fadeIn 0.5s ease-in-out;
   }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+::-webkit-scrollbar {
+  width: 0.5rem;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cfcccc;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #b3b3b3;
 }
