@@ -8,7 +8,7 @@
   background-position: center;
   background-repeat: no-repeat;
   // background-color: #808080;
-  color: #fff;
+  color: $text;
   display: flex;
   gap: 8rem;
   align-items: center;
@@ -21,13 +21,13 @@
     border: 0.2rem solid #fff;
   }
 
-  h1 {
-    color: #fff;
+  &--title {
+    color: $text;
     font-size: 2.4rem;
     margin: 0 0 0.8rem;
   }
 
-  p {
+  &--item {
     display: flex;
     align-items: center;
     gap: 1rem;
@@ -41,7 +41,7 @@
 
 .info-header {
   display: flex;
-  gap: 8rem;
+  gap: 4rem;
   align-items: center;
 }
 

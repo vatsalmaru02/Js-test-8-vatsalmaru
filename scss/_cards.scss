@@ -12,17 +12,17 @@
   border-left: 0.4rem solid #dadada;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   // background-color: #c0c0c0;
-  background-color: #2b3377;
+  background-color: $primary;
 
-  h3 {
+  &--title {
     // color: #333;
     color: #fff;
     font-size: 1.8rem;
     margin-bottom: 1.6rem;
   }
 
-  p {
-    color: #fff;
+  &--details{
+    color: $text;
     display: flex;
     justify-content: space-between;
     margin: 0.8rem 0;
@@ -30,7 +30,7 @@
 
     span {
       // color: $muted;
-      color: #fff;
+      color: $text;
     }
   }
 
@@ -38,9 +38,9 @@
     gap: 8rem;
   }
 
-  a {
+  &--link {
     display: inline-block;
-    color: #fff;
+    color: $text;
     font-weight: 600;
     text-decoration: none;
 

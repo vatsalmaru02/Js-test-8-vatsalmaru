@@ -40,12 +40,12 @@ html {
   border-radius: 50%;
   border: 0.2rem solid #fff;
 }
-.profile-header h1 {
+.profile-header--title {
   color: #fff;
   font-size: 2.4rem;
   margin: 0 0 0.8rem;
 }
-.profile-header p {
+.profile-header--item {
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -58,7 +58,7 @@ html {
 
 .info-header {
   display: flex;
-  gap: 8rem;
+  gap: 4rem;
   align-items: center;
 }
 
@@ -127,14 +127,14 @@ html {
 @media (max-width: 1159px) {
   .info-header {
     display: flex;
-    gap: 7rem;
+    gap: 3rem;
     align-items: center;
   }
 }
 @media (max-width: 1102px) {
   .info-header {
     display: flex;
-    gap: 5rem;
+    gap: 1rem;
     align-items: center;
   }
 }
@@ -246,31 +246,31 @@ html {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   background-color: #2b3377;
 }
-.info-card h3 {
+.info-card--title {
   color: #fff;
   font-size: 1.8rem;
   margin-bottom: 1.6rem;
 }
-.info-card p {
+.info-card--details {
   color: #fff;
   display: flex;
   justify-content: space-between;
   margin: 0.8rem 0;
   font-size: 1.6rem;
 }
-.info-card p span {
+.info-card--details span {
   color: #fff;
 }
 .info-card .uuid {
   gap: 8rem;
 }
-.info-card a {
+.info-card--link {
   display: inline-block;
   color: #fff;
   font-weight: 600;
   text-decoration: none;
 }
-.info-card a:hover {
+.info-card--link:hover {
   text-decoration: underline;
 }
 

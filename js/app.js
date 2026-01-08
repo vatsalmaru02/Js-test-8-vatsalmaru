@@ -13,6 +13,7 @@ let currentUser = null;
 let universities = [];
 let filtered = [];
 let currentPage = 1;
+let isLoading = false;
 const perPage = 6;
 
 document.addEventListener("DOMContentLoaded", init);
@@ -24,13 +25,11 @@ function init() {
   fetch(APP_CONFIG.api)
     .then((res) => res.json())
     .then((data) => {
-      setTimeout(() => {
-        currentUser = data.results[0];
-        renderHeader();
-        buildTabs();
-        activateTab(APP_CONFIG.tabs[0].name);
-        hideGlobalLoader();
-      }, 3000);
+      currentUser = data.results[0];
+      renderHeader();
+      buildTabs();
+      activateTab(APP_CONFIG.tabs[0].name);
+      hideGlobalLoader();
     });
 }
 
@@ -98,15 +97,23 @@ function renderProfile(el) {
             <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
             </svg>
           </div>
-          <h3>Personal Information</h3>
+          <h3 class = "info-card--title">Personal Information</h3>
         </div>
-        <p><span>Full Name:</span><b>${user.name.first} ${
-    user.name.last
-  }</b></p>
-        <p><span>Gender:</span><b>${user.gender}</b></p>
-        <p><span>DOB:</span><b>${user.dob.date.split("T")[0]}</b></p>
-        <p><span>Age:</span><b>${user.dob.age}</b></p>
-        <p><span>Nationality:</span><b>${user.nat}</b></p>
+        <p class = "info-card--details"><span>Full Name:</span><b>${
+          user.name.first
+        } ${user.name.last}</b></p>
+        <p class = "info-card--details"><span>Gender:</span><b>${
+          user.gender
+        }</b></p>
+        <p class = "info-card--details"><span>DOB:</span><b>${
+          user.dob.date.split("T")[0]
+        }</b></p>
+        <p class = "info-card--details"><span>Age:</span><b>${
+          user.dob.age
+        }</b></p>
+        <p class = "info-card--details"><span>Nationality:</span><b>${
+          user.nat
+        }</b></p>
       </div>
 
       <div class="info-card">
@@ -117,11 +124,17 @@ function renderProfile(el) {
           </svg>
 
           </div>
-          <h3>Contact Information</h3>
+          <h3 class = "info-card--title">Contact Information</h3>
         </div>
-        <p><span>Email:</span><b>${user.email}</b></p>
-        <p><span>Phone:</span><b>${user.phone}</b></p>
-        <p><span>Cell:</span><b>${user.cell}</b></p>
+        <p class = "info-card--details"><span>Email:</span><b>${
+          user.email
+        }</b></p>
+        <p class = "info-card--details"><span>Phone:</span><b>${
+          user.phone
+        }</b></p>
+        <p class = "info-card--details"><span>Cell:</span><b>${
+          user.cell
+        }</b></p>
       </div>
 
       <div class="info-card">
@@ -132,15 +145,23 @@ function renderProfile(el) {
           </svg>
 
           </div>
-          <h3>Address</h3>
+          <h3 class = "info-card--title">Address</h3>
         </div>
-        <p><span>Street:</span><b>${user.location.street.number} ${
-    user.location.street.name
-  }</b></p>
-        <p><span>City:</span><b>${user.location.city}</b></p>
-        <p><span>State:</span><b>${user.location.state}</b></p>
-        <p><span>Country:</span><b>${user.location.country}</b></p>
-        <p><span>Postcode:</span><b>${user.location.postcode}</b></p>
+        <p class = "info-card--details"><span>Street:</span><b>${
+          user.location.street.number
+        } ${user.location.street.name}</b></p>
+        <p class = "info-card--details"><span>City:</span><b>${
+          user.location.city
+        }</b></p>
+        <p class = "info-card--details"><span>State:</span><b>${
+          user.location.state
+        }</b></p>
+        <p class = "info-card--details"><span>Country:</span><b>${
+          user.location.country
+        }</b></p>
+        <p class = "info-card--details"><span>Postcode:</span><b>${
+          user.location.postcode
+        }</b></p>
       </div>
 
       <div class="info-card">
@@ -150,13 +171,15 @@ function renderProfile(el) {
         <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
       </svg>
 
-
-
-          </div>
-          <h3>Account Information</h3>
+      </div>
+          <h3 class = "info-card--title">Account Information</h3>
         </div>
-        <p><span>Username:</span><b>${user.login.username}</b></p>
-        <p class = "uuid"><span>UUID:</span><b>${user.login.uuid}</b></p>
+        <p class = "info-card--details"><span>Username:</span><b>${
+          user.login.username
+        }</b></p>
+        <p class = "info-card--details uuid"><span>UUID:</span><b>${
+          user.login.uuid
+        }</b></p>
       </div>
     </div>
   `;
@@ -185,11 +208,9 @@ function renderUniversity(el) {
   fetch(url)
     .then((res) => res.json())
     .then((data) => {
-      setTimeout(() => {
-        universities = filtered = data;
-        currentPage = 1;
-        renderUniversities();
-      }, 3000);
+      universities = filtered = data;
+      currentPage = 1;
+      renderUniversities();
     });
 
   const search = document.getElementById("search");
@@ -208,9 +229,9 @@ function renderUniversities() {
     .forEach((u) => {
       list.innerHTML += `
         <div class="info-card">
-          <h3>${u.name}</h3>
-          <p>${u.country}</p>
-          <a href="${u.web_pages[0]}" target="_blank">Visit Website</a>
+          <h3 class="info-card--title">${u.name}</h3>
+          <p class = "info-card--details">${u.country}</p>
+          <a class = "info-card--link" href="${u.web_pages[0]}" target="_blank">Visit Website</a>
         </div>
       `;
     });
@@ -292,14 +313,12 @@ function renderGenericApi(el, api) {
   fetch(api)
     .then((res) => res.json())
     .then((data) => {
-      setTimeout(() => {
-        el.innerHTML = `
+      el.innerHTML = `
           <div class="info-card">
             <h3>API Response</h3>
             <pre>${JSON.stringify(data, null, 2)}</pre>
           </div>
         `;
-      }, 3000);
     });
 }
 
@@ -337,6 +356,7 @@ function injectLoaderStyles() {
 }
 
 function showGlobalLoader() {
+  isLoading = true;
   const loader = document.createElement("div");
   loader.id = "global-loader";
   Object.assign(loader.style, {
@@ -358,4 +378,5 @@ function showGlobalLoader() {
 function hideGlobalLoader() {
   const loader = document.getElementById("global-loader");
   if (loader) loader.remove();
+  isLoading = false;
 }
