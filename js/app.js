@@ -1,3 +1,5 @@
+const { createElement } = require("react");
+
 const APP_CONFIG = {
   api: "https://randomuser.me/api/",
   tabs: [
@@ -21,16 +23,24 @@ document.addEventListener("DOMContentLoaded", init);
 function init() {
   injectLoaderStyles();
   showGlobalLoader();
-
-  fetch(APP_CONFIG.api)
-    .then((res) => res.json())
-    .then((data) => {
-      currentUser = data.results[0];
-      renderHeader();
-      buildTabs();
-      activateTab(APP_CONFIG.tabs[0].name);
-      hideGlobalLoader();
-    });
+  try {
+    fetch(APP_CONFIG.api)
+      .then((res) => res.json())
+      .then((data) => {
+        currentUser = data.results[0];
+        renderHeader();
+        buildTabs();
+        activateTab(APP_CONFIG.tabs[0].name);
+        hideGlobalLoader();
+      });
+  } catch (error) {
+    // show error message in the ui to user.
+    console.error("Error fetching user data:", error);
+    createElement("div", null, "Failed to load user data.");
+    hideGlobalLoader();
+  } finally {
+    hideGlobalLoader();
+  }
 }
 
 function renderHeader() {
@@ -356,7 +366,7 @@ function injectLoaderStyles() {
 }
 
 function showGlobalLoader() {
-  isLoading = true;
+  this.isLoading = true;
   const loader = document.createElement("div");
   loader.id = "global-loader";
   Object.assign(loader.style, {
@@ -378,5 +388,5 @@ function showGlobalLoader() {
 function hideGlobalLoader() {
   const loader = document.getElementById("global-loader");
   if (loader) loader.remove();
-  isLoading = false;
+  this.isLoading = false;
 }
