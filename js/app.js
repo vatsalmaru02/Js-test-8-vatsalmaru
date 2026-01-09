@@ -1,5 +1,3 @@
-const { createElement } = require("react");
-
 const APP_CONFIG = {
   api: "https://randomuser.me/api/",
   tabs: [
@@ -18,9 +16,10 @@ let currentPage = 1;
 let isLoading = false;
 const perPage = 6;
 
-document.addEventListener("DOMContentLoaded", init);
+document.addEventListener("DOMContentLoaded", init());
 
 function init() {
+  console.log("init");
   injectLoaderStyles();
   showGlobalLoader();
   try {
@@ -34,7 +33,6 @@ function init() {
         hideGlobalLoader();
       });
   } catch (error) {
-    // show error message in the ui to user.
     console.error("Error fetching user data:", error);
     createElement("div", null, "Failed to load user data.");
     hideGlobalLoader();
